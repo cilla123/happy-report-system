@@ -31,7 +31,6 @@ class UserController extends Controller {
 	 * 获取用户信息
 	 */
   async getUserInfo() {
-		
     this.ctx.body = {
 			"code": 200
 		}
