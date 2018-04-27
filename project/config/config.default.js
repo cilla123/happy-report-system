@@ -9,5 +9,22 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [];
 
+  config.onerror = {
+    all(err, ctx) {
+      ctx.body = 'error';
+      ctx.status = 500;
+    },
+    html(err, ctx) {
+      // html hander
+      ctx.body = '<h3>error</h3>';
+      ctx.status = 500;
+    },
+    json(err, ctx) {
+      // json hander
+      ctx.body = { message: 'error' };
+      ctx.status = 500;
+    }
+  }
+
   return config;
 };

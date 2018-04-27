@@ -17,6 +17,9 @@ class UserController extends Controller {
 	 */
 	async register(){
 
+
+
+		const ctx = this.ctx
 	}
 
 	/**
@@ -41,9 +44,16 @@ class UserController extends Controller {
 	 */
 	async getUserIsExist(){
 		const ctx = this.ctx
-		const { username } = ctx.query
-		const user = await ctx.service.user.findUsername(username)
-		ctx.body = user ? true : false
+		try {
+			const { username } = ctx.query
+			const user = await ctx.service.user.findUsername(username)
+			ctx.helper.sendSuccessJSON({
+				data: user ? true : false,
+				msg: '查询成功'
+			})
+		} catch (error) {
+			ctx.helper.sendErrorJSON('查询失败')
+		}
 	}
 
 }
