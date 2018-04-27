@@ -37,16 +37,14 @@ class UserController extends Controller {
 		}
   }
 
-	 /**
-		* 获取用户是否存在
-	  */
+	/**
+	 * 获取用户是否存在
+	 */
 	async getUserIsExist(){
 		const ctx = this.ctx
 		const { username } = ctx.query
-		// console.log(username)
 		const user = await ctx.service.user.findUsername(username)
-		// console.log(user)
-		ctx.body = "145151515"
+		ctx.body = user ? true : false
 	}
 
 }

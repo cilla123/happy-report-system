@@ -11,9 +11,8 @@ class UserService extends Service {
      */
     async findUsername(username){
         const mysql = this.app.mysql;
-        const user = await mysql.get(USER_TABLE, {  });
-        console.log(user)
-        return { user };
+        const user = await mysql.get(USER_TABLE, { username });
+        return user;
     }
 
 }

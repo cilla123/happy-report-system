@@ -1,0 +1,1 @@
+EGG_SERVER_ENV=local npm run dev

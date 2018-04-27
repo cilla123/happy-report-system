@@ -22,6 +22,7 @@
     "node": ">=8.9.0"
   },
   "scripts": {
+    "local": "EGG_SERVER_ENV=local egg-bin dev",
     "start": "egg-scripts start --daemon --title=egg-server-happy-report-system",
     "stop": "egg-scripts stop --title=egg-server-happy-report-system",
     "dev": "egg-bin dev",
