@@ -23,8 +23,15 @@ module.exports = appInfo => {
       // json hander
       ctx.body = { message: 'error' };
       ctx.status = 500;
-    }
-  }
+    },
+  };
+
+  config.security = {
+    csrf: {
+      headerName: 'x-csrf-token', // 通过 header 传递 CSRF token 的默认字段为 x-csrf-token
+    },
+  };
+
 
   return config;
 };
