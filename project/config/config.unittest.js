@@ -8,7 +8,7 @@ exports.mysql = {
     // 用户名
     user: 'root',
     // 密码
-    password: 'ljh19950228',
+    password: '',
     // 数据库名
     database: 'happy-report-system',
   },
