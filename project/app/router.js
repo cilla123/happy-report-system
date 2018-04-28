@@ -5,13 +5,13 @@
  */
 module.exports = app => {
   const { router, controller } = app;
-  router.get('/', controller.home.index);
 
+  const prefix = '/api'
 
   // 获取用户信息
-  router.post('/login', controller.user.login);
-  router.post('/register', controller.user.register);
-  router.post('/login_out', controller.user.loginOut);
-  router.get('/user/is_exist', controller.user.getUserIsExist);
-  router.get('/user', controller.user.getUserInfo);
+  router.post(`${prefix}/login`, controller.user.login);
+  router.post(`${prefix}/register`, controller.user.register);
+  router.post(`${prefix}/login_out`, controller.user.loginOut);
+  router.get(`${prefix}/user/is_exist`, controller.user.getUserIsExist);
+  router.get(`${prefix}/user`, controller.user.getUserInfo);
 };
