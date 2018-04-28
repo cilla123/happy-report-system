@@ -13,5 +13,5 @@ module.exports = app => {
   router.post('/register', controller.user.register);
   router.post('/login_out', controller.user.loginOut);
   router.get('/user/is_exist', controller.user.getUserIsExist);
-  router.get('/user/:id', controller.user.getUserInfo);
+  router.get('/user', controller.user.getUserInfo);
 };

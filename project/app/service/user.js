@@ -12,9 +12,15 @@ class UserService extends Service {
   /**
    * 查找用户
    */
-  async findUsername(username) {
+  async findUser(data) {
+    const { username, id } = data
     const mysql = this.app.mysql;
-    const user = await mysql.get(USER_TABLE, { username });
+    let user = ''
+    if (username) {
+      user = await mysql.get(USER_TABLE, { username });      
+    }else {
+      user = await mysql.get(USER_TABLE, { id: id });
+    }
     return user;
   }
 
@@ -24,8 +30,8 @@ class UserService extends Service {
   async createUser(data){
     const mysql = this.app.mysql;
     const { username, password, token } = data;
-    const ctx = this.ctx
-    const nowTime = ctx.helper.getCurrentTime()
+    const ctx = this.ctx;
+    const nowTime = ctx.helper.getCurrentTime();
     const user = await mysql.insert(USER_TABLE, { 
       username, 
       password,

@@ -12,7 +12,34 @@ class UserController extends Controller {
 	 * 登录
 	 */
   async login() {
+    const ctx = this.ctx;
+    try {
+      const { password, username } = ctx.request.body;
+      const userService = ctx.service.user;
+      
+      // 1.检查注册字段是否符合规则
+      ctx.validate({
+        username: { required: true, type: 'string', min: 6, max: 20 },
+        password: { required: true, type: 'password', min: 6, max: 20 },
+      }, ctx.request.body);
 
+      // 2.检查用户是否存在
+      const user = await userService.findUser({ username });
+      if (user) {
+        // 3.判断密码是否相同
+        const isPasswordEqual = ctx.helper.comparePassword(password, user.password);
+        if (isPasswordEqual) {
+          delete user.password          
+          ctx.helper.sendSuccessJSON({ data: user, msg: '登录成功' })          
+        }else {
+          throw new Error('密码不正确')          
+        }
+      }else {
+        throw new Error('用户不存在')
+      }
+    } catch (error) {
+      ctx.helper.sendErrorJSON(new String(error));      
+    }
   }
 
   /**
@@ -22,7 +49,7 @@ class UserController extends Controller {
     const ctx = this.ctx;
     try {
       const { password, password2, username } = ctx.request.body;
-      const userService = ctx.service.user
+      const userService = ctx.service.user;
 
       // 1.检查注册字段是否符合规则
       ctx.validate({
@@ -32,7 +59,7 @@ class UserController extends Controller {
       }, ctx.request.body);
 
       // 2.检查用户是否存在
-      const user = await userService.findUsername(username);
+      const user = await userService.findUser({username});
       if (!user) {
         // 3.判断密码是否相同
         if (password2 === password) {
@@ -63,9 +90,18 @@ class UserController extends Controller {
 	 * 获取用户信息
 	 */
   async getUserInfo() {
-    this.ctx.body = {
-      code: 200,
-    };
+    const ctx = this.ctx;
+    try {
+      const { id } = ctx.query;
+      const user = await ctx.service.user.findUser({id})
+      delete user.password
+      ctx.helper.sendSuccessJSON({
+        data: user,
+        msg: '查询成功',
+      });
+    } catch (error) {
+      ctx.helper.sendErrorJSON('查询失败');      
+    }
   }
 
   /**
@@ -75,7 +111,7 @@ class UserController extends Controller {
     const ctx = this.ctx;
     try {
       const { username } = ctx.query;
-      const user = await ctx.service.user.findUsername(username);
+      const user = await ctx.service.user.findUser({username});
       ctx.helper.sendSuccessJSON({
         data: !!user,
         msg: '查询成功',
